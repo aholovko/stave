@@ -32,11 +32,15 @@ The four version files are `editors/vscode/package.json`, `editors/vscode/packag
 `infer/uv.lock`. Their numeric version must match the tag without its `v` prefix. The workflow stamps the full tag
 into the Go binary during the build.
 
+Update `version` and `date-released` in [CITATION.cff](../CITATION.cff), and update the version examples in the
+[README](../README.md#installation) to match the release.
+
 If model bundles change, update their URLs and zip hashes in the [catalog](../internal/models/catalog.json) now.
 The catalog is embedded in each binary. Follow [model bundle publishing](model-bundles.md#publish-and-catalog) for
 the separate model release.
 
-Run the [local checks](ci.md#local-checks), review the changes and commit them.
+Run the [local checks](ci.md#local-checks), review the changes and create a signed, signed-off commit with
+`git commit -s -S`. Git signing must be configured for the commit and release tag.
 
 Push the release commit to the repository where you intend to publish. Replace `RELEASE_REMOTE` and `RELEASE_BRANCH`
 with the remote and branch names; use `git remote -v` to check the destination.
@@ -65,7 +69,7 @@ Use the successful rehearsal's commit hash, or the commit prepared and pushed in
 Replace `RELEASE_COMMIT` with that hash, and use the same remote as in step 2:
 
 ```sh
-git tag -a v0.1.1 RELEASE_COMMIT -m "STAVE v0.1.1"
+git tag -s v0.1.1 RELEASE_COMMIT -m "STAVE v0.1.1"
 git push RELEASE_REMOTE v0.1.1
 ```
 
@@ -85,7 +89,11 @@ Open the draft on that repository's **Releases** page:
 - Download the model zips from the [catalog's URLs](../internal/models/catalog.json) and compare their SHA-256 hashes
   with the catalog. Workflow verification uses toy models and does not check these downloads.
 
-Click **Publish release** when these checks are complete.
+Mark the binary release as **Latest** and click **Publish release** when these checks are complete.
+
+After publication, confirm that the binary release is Latest and the model release is not. Use the
+[README's download commands](../README.md#installation) without GitHub authentication and compare the archive's SHA-256
+with `SHA256SUMS`.
 
 ## Release assets
 

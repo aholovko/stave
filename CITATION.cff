@@ -2,6 +2,8 @@ cff-version: 1.2.0
 message: If you use STAVE in your research, please cite it using this file.
 type: software
 title: "STAVE: Go code-style analysis"
+version: 0.1.0
+date-released: "2026-10-21"
 authors:
   - family-names: Holovko
     given-names: Andrii

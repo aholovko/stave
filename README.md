@@ -244,7 +244,8 @@ After building, try the P1–P3 exact checks without an inference runtime or mod
 build/stave check -advisory disabled path/to/package
 ```
 
-For model suggestions, run `build/stave setup -model PATH/TO/BUNDLE.zip` with a local model bundle.
+For model suggestions, run `build/stave setup` to install the runtime and default model. To use a local bundle, add
+`-model PATH/TO/BUNDLE.zip`.
 
 See [Architecture](ARCHITECTURE.md), [CI](docs/ci.md), [Releasing STAVE](docs/releasing.md), and
 [extension development](editors/vscode/README.md#development).
