@@ -1,0 +1,1 @@
+{"ok":true,"task":"P2","cand":"P2:demo:0","source":{"bytes":373,"sha256":"1ec4c9d4ab0f86db9311dc8484a6b0efcea0bb0e0256d19caff6b1a79a8f039f"},"runs":[[71,88]],"roles":{"CALL":{"iv":[[71,88]],"why":"present"},"CAND":{"iv":[[82,88]],"why":"present"}},"facts":[[71,88,"NoStmt","Outside",null,null,null,null,0]]}

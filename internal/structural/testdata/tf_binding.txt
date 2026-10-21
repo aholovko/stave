@@ -1,0 +1,49 @@
+package p
+
+import (
+	"errors"
+	tst "testing"
+)
+
+type fake struct{}
+
+func (fake) Error(string) {}
+
+var pkgT *tst.T
+
+var lit = func(t *tst.T) { t.Error("pkg") }
+
+func TestAlias(t *tst.T) {
+	t.Errorf("alias")
+	var f fake
+	f.Error("fake")
+	if t := (fake{}); true {
+		t.Error("shadow")
+	}
+	tt := t
+	tt.Error("copy")
+	pkgT.Fatal("global")
+	_ = errors.New("x").Error()
+	t.Run("sub", func(st *tst.T) {
+		st.Fatal("inner")
+		t.Error("captured")
+	})
+}
+
+func helper(tb tst.TB) {
+	tb.Fatal("tb")
+}
+
+func (f fake) method(t *tst.T) {
+	f.Error("recv")
+	t.Error("method")
+}
+
+func result() (t *tst.T) {
+	t.Error("res")
+	return
+}
+
+func other(t *fake) { t.Error("other") }
+
+func missing(t *testing.T) { t.Error("missing") }

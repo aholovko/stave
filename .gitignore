@@ -1,0 +1,21 @@
+# Go
+/build/
+/dist/
+/release/
+*.test
+
+# Python (infer/)
+/infer/dist/
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+
+# Node (editors/vscode/)
+node_modules/
+*.vsix
+
+# OS
+.DS_Store
+Thumbs.db

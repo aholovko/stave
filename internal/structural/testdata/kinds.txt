@@ -1,0 +1,42 @@
+package fx
+
+// Kinds holds every statement kind inside the branches of one if/else, so the
+// P1 projection compared with the oracle visits each of them.
+func Kinds(ch chan int, xs []int, v any) int {
+	if len(xs) > 0 {
+		var n int
+		defer func() {}()
+		;
+		{
+			n++
+		}
+		for i := 0; i < 2; i++ {
+			n += i
+		}
+		for _, x := range xs {
+			n += x
+		}
+		go func() { ch <- 1 }()
+		select {
+		case m := <-ch:
+			n += m
+		default:
+		}
+		switch n {
+		case 1:
+			n--
+		}
+		switch t := v.(type) {
+		case int:
+			n += t
+		}
+	L:
+		for {
+			break L
+		}
+		return n
+	} else {
+		ch <- 0
+	}
+	return 0
+}

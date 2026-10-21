@@ -1,0 +1,87 @@
+name: CI
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+  workflow_call:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
+    env:
+      # Use Go from go.mod without automatic toolchain downloads, and uv-managed Python.
+      GOTOOLCHAIN: local
+      UV_PYTHON_PREFERENCE: only-managed
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: Install Go
+        uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e
+        with:
+          go-version-file: go.mod
+          cache: false
+      - name: Workflow lint
+        if: runner.os == 'Linux'
+        run: go run github.com/rhysd/actionlint/cmd/actionlint@v1.7.12
+      - name: Install uv
+        uses: astral-sh/setup-uv@1c37ad07a6a961277cf70c0d37d6f313000f5884
+        with:
+          version: "0.13.3"
+          enable-cache: true
+      - name: Install Node
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1
+        with:
+          node-version: 22
+
+      - name: Go format
+        shell: bash
+        run: |
+          unformatted="$(gofmt -l .)"
+          if [ -n "$unformatted" ]; then
+            echo "gofmt would change:"
+            echo "$unformatted"
+            exit 1
+          fi
+      - name: Go vet
+        run: go vet ./...
+      # Go model tests need this Python environment to build toy bundles.
+      - name: Sync the locked inference environment
+        run: uv sync --locked --directory infer
+      - name: Release checks
+        shell: bash
+        run: |
+          uv run --project infer --locked python scripts/release/version.py --check
+          uv run --project infer --locked python -m unittest discover -s scripts/release -p "test_*.py"
+      - name: Go tests
+        if: runner.os != 'Linux'
+        run: go test -count=1 ./...
+      - name: Go tests with race detection
+        if: runner.os == 'Linux'
+        run: go test -race -count=1 ./...
+      - name: Python lint
+        run: uv run --directory infer --locked ruff check
+      - name: Python format
+        run: uv run --directory infer --locked ruff format --check
+      - name: Python types
+        run: uv run --directory infer --locked pyright
+      - name: Python tests, end to end included
+        run: uv run --directory infer --locked pytest
+      - name: Install extension dependencies
+        run: npm --prefix editors/vscode ci --ignore-scripts
+      - name: Extension unit tests
+        run: npm --prefix editors/vscode run test:unit

@@ -1,0 +1,8 @@
+STAVE
+Copyright 2026 Andrii Holovko
+
+STAVE model bundles contain weights fine-tuned from UniXcoder-base
+(https://huggingface.co/microsoft/unixcoder-base, revision
+5604afdc964f6c53782a6813140ade5216b99006), Copyright Microsoft Corporation, licensed under the Apache License,
+Version 2.0. The tokenizer files shipped in model bundles and test fixtures come from the same UniXcoder-base
+revision.

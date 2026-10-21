@@ -1,0 +1,203 @@
+name: Release
+
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  checks:
+    uses: ./.github/workflows/ci.yml
+
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      GOTOOLCHAIN: local
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: Install Go
+        uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e
+        with:
+          go-version-file: go.mod
+          cache: false
+      - name: Install Node
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1
+        with:
+          node-version: 22
+
+      - name: Validate and name the version
+        id: version
+        run: python3 scripts/release/version.py >>"$GITHUB_OUTPUT"
+      - name: Build the binaries, the extension, the runtime source and SHA256SUMS
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+        run: bash scripts/release/build.sh "$VERSION" release
+      - name: Keep the assets as a workflow artifact
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        with:
+          name: release
+          path: release/
+          if-no-files-found: error
+          overwrite: true
+
+  # Installs the assets as the README does, natively on each supported platform.
+  verify:
+    needs: build
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            target: linux_amd64
+          - os: ubuntu-24.04-arm
+            target: linux_arm64
+          - os: macos-latest
+            target: darwin_arm64
+          - os: windows-latest
+            target: windows_amd64
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 45
+    permissions:
+      contents: read
+    defaults:
+      run:
+        shell: bash
+    env:
+      VERSION: ${{ needs.build.outputs.version }}
+      UV_PYTHON_PREFERENCE: only-managed
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: Download the assets
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333
+        with:
+          name: release
+          path: release
+      - name: Install uv
+        uses: astral-sh/setup-uv@1c37ad07a6a961277cf70c0d37d6f313000f5884
+        with:
+          version: "0.13.3"
+          enable-cache: false
+      - name: Install Node
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1
+        with:
+          node-version: 22
+
+      - name: Check the assets against SHA256SUMS
+        working-directory: release
+        run: |
+          if command -v sha256sum >/dev/null; then sha256sum -c SHA256SUMS; else shasum -a 256 -c SHA256SUMS; fi
+      # Set this in a step because runner.temp is unavailable in job-level env.
+      - name: Put stave on PATH
+        run: |
+          echo "STAVE_HOME=$RUNNER_TEMP/stave-home" >>"$GITHUB_ENV"
+          name="stave_${VERSION}_${{ matrix.target }}"
+          if [ "${{ runner.os }}" = Windows ]; then
+            7z x -o"$RUNNER_TEMP" "release/$name.zip"
+          else
+            tar -xzf "release/$name.tar.gz" -C "$RUNNER_TEMP"
+          fi
+          echo "$RUNNER_TEMP/$name" >>"$GITHUB_PATH"
+      - name: stave version
+        run: |
+          stave version | tee "$RUNNER_TEMP/version.txt"
+          grep -Fx "stave $VERSION" "$RUNNER_TEMP/version.txt"
+      - name: stave setup -no-model, with the real uv
+        run: stave setup -no-model
+      # Use the installed runtime so toy bundles exercise the packaged inference code.
+      - name: Make the toy bundles
+        run: |
+          if [ "${{ runner.os }}" = Windows ]; then
+            python="$STAVE_HOME/runtime/$VERSION/.venv/Scripts/python.exe"
+          else
+            python="$STAVE_HOME/runtime/$VERSION/.venv/bin/python"
+          fi
+          echo "RUNTIME_PYTHON=$python" >>"$GITHUB_ENV"
+          for variant in S B; do
+            "$python" -m stave_infer.toy --variant "$variant" --out "$RUNNER_TEMP/toy/toy-$variant" \
+              --tokenizer-dir infer/tests/fixtures/tokenizer
+          done
+          "$python" -m zipfile -c "$RUNNER_TEMP/toy/toy-S.zip" "$RUNNER_TEMP/toy/toy-S"
+      - name: stave model add
+        run: stave model add "$RUNNER_TEMP/toy/toy-S.zip"
+      - name: stave doctor
+        run: stave doctor
+      # Copy outside testdata so the TF path gate admits the fixture.
+      - name: stave check on the fixture package
+        run: |
+          mkdir -p "$RUNNER_TEMP/work"
+          cp -R testdata/fixture-pkg "$RUNNER_TEMP/work/"
+          stave check "$RUNNER_TEMP/work/fixture-pkg" | tee "$RUNNER_TEMP/check.txt"
+          grep -F "P1 exact: else after direct return" "$RUNNER_TEMP/check.txt"
+          grep -F "[toy-S score=" "$RUNNER_TEMP/check.txt"
+
+      - name: Install the editor suite's dependencies
+        run: npm --prefix editors/vscode ci --ignore-scripts
+      - name: Install the system libraries of VS Code
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends xvfb libasound2t64 libgbm1 libgtk-3-0t64 libnss3 libsecret-1-0
+      - name: VS Code integration suite against the installed .vsix
+        env:
+          STAVE_EDITOR_BUNDLE_B: ${{ runner.temp }}/toy/toy-B
+          STAVE_EDITOR_TEST_ROOT: ${{ runner.temp }}
+        run: |
+          export STAVE_SERVER_PATH="$RUNNER_TEMP/stave_${VERSION}_${{ matrix.target }}/stave"
+          if [ "${{ runner.os }}" = Windows ]; then STAVE_SERVER_PATH="$STAVE_SERVER_PATH.exe"; fi
+          export STAVE_RUNTIME_PYTHON="$RUNTIME_PYTHON"
+          export STAVE_EDITOR_BUNDLE="$RUNNER_TEMP/toy/toy-S.zip"
+          vsix="$GITHUB_WORKSPACE/release/$(basename release/stave-vscode-*.vsix)"
+          if [ "${{ runner.os }}" = Linux ]; then
+            xvfb-run -a npm --prefix editors/vscode test -- --vsix "$vsix"
+          else
+            npm --prefix editors/vscode test -- --vsix "$vsix"
+          fi
+      - name: The README's commands as written
+        run: bash scripts/release/readme_check.sh --bundle "$RUNNER_TEMP/toy/toy-S.zip"
+
+  release:
+    needs: [checks, build, verify]
+    if: github.event_name == 'push' && github.ref_type == 'tag'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+    env:
+      VERSION: ${{ needs.build.outputs.version }}
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - name: Download the verified assets
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333
+        with:
+          name: release
+          path: release
+      - name: Create or update the verified draft
+        run: |
+          draft=$(gh api --paginate "repos/$GITHUB_REPOSITORY/releases" \
+            --jq ".[] | select(.tag_name == \"$VERSION\") | .draft")
+          if [ -n "$draft" ]; then
+            if [ "$draft" != true ]; then
+              echo "Release $VERSION is already published; its assets will not be replaced."
+              exit 1
+            fi
+            gh release upload "$VERSION" release/* --repo "$GITHUB_REPOSITORY" --clobber
+          else
+            gh release create "$VERSION" release/* --repo "$GITHUB_REPOSITORY" \
+              --draft --verify-tag --generate-notes --title "STAVE $VERSION"
+          fi

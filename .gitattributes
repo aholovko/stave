@@ -1,0 +1,7 @@
+# gofmt -l lists every Go file a Windows checkout converted to CRLF. Later lines win, so fixtures stay -text.
+*.go text eol=lf
+# Byte-span fixtures and golden outputs must keep their exact bytes on every platform.
+testdata/** -text
+internal/**/testdata/** -text
+infer/tests/fixtures/** -text
+cmd/**/testdata/** -text

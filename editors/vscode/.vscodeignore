@@ -1,0 +1,7 @@
+.gitignore
+.vscode-test/**
+test/**
+package-lock.json
+node_modules/**
+extension.js
+bundle.js

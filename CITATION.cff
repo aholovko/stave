@@ -1,0 +1,25 @@
+cff-version: 1.2.0
+message: If you use STAVE in your research, please cite it using this file.
+type: software
+title: "STAVE: Go code-style analysis"
+authors:
+  - family-names: Holovko
+    given-names: Andrii
+    orcid: https://orcid.org/0009-0001-2380-5050
+repository-code: https://github.com/aholovko/stave
+license: Apache-2.0
+references:
+  - type: thesis
+    title: >-
+      Модель машинного навчання з елементами структурно-автоматних моделей для аналізу та супроводу розробки програмного
+      коду
+    authors:
+      - family-names: Holovko
+        given-names: Andrii
+        orcid: https://orcid.org/0009-0001-2380-5050
+    institution:
+      name: Lviv Polytechnic National University
+    thesis-type: PhD dissertation
+    status: in-preparation
+    notes: >-
+      STAVE implements the system described in the dissertation. Submission is planned for 2027.

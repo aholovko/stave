@@ -1,0 +1,86 @@
+{
+  "tf": {
+    "presented_id": "t0123456789ab",
+    "provenance_rule": "Frozen fields are provenance only: each chain literal's position by the binding text's literal-position rule; caller_context complete only for a top-level Test or Benchmark declaration whose chain literals are all run_argument; context_reasons callback when a chain literal is returned or other, helper or method for such declarations; callback true exactly when callback is a reason; enclosing_run_name is the innermost syntactic Run name, unavailable when outside_packet and no Run encloses the target, none when complete and no Run encloses it.",
+    "fixtures": {
+      "T1": {
+        "declaration": "func TestParse(t *testing.T) {\n\tfor _, in := range inputs() {\n\t\tt.Cleanup(func() {\n\t\t\tif err := parse(in); err != nil {\n\t\t\t\tt.Errorf(\"parse failed\")\n\t\t\t}\n\t\t})\n\t}\n}",
+        "target": "t.Errorf(\"parse failed\")",
+        "context": {"id": "t0123456789ab", "caller_context": "outside_packet", "context_reasons": ["callback"], "callback": true, "literals": [{"position": "other", "invocation": "escaping", "owns_binding": false, "declaration_bytes": [74, 157]}], "reached_literals": [], "enclosing_run_name": {"kind": "unavailable"}, "reported_name": {"paths": [{"end": "in_packet", "end_bytes": [15, 16], "run_names": []}]}, "target_declaration_bytes": [124, 148]},
+        "intended": "positive; fact in, closure_capture"
+      },
+      "T2": {
+        "declaration": "func TestAll(t *testing.T) {\n\tforEachCase(t, func(c tcase) {\n\t\tif got := run(c.in); got != c.want {\n\t\t\tt.Errorf(\"got %v\", got)\n\t\t}\n\t})\n}",
+        "target": "t.Errorf(\"got %v\", got)",
+        "context": {"id": "t0123456789ab", "caller_context": "outside_packet", "context_reasons": ["callback"], "callback": true, "literals": [{"position": "other", "invocation": "escaping", "owns_binding": false, "declaration_bytes": [45, 133]}], "reached_literals": [], "enclosing_run_name": {"kind": "unavailable"}, "reported_name": {"paths": [{"end": "in_packet", "end_bytes": [13, 14], "run_names": []}]}, "target_declaration_bytes": [103, 126]},
+        "intended": "unknown, outside_packet; fact c.in, callback_param_escaping"
+      },
+      "T3": {
+        "declaration": "func TestSync(t *testing.T) {\n\tcheck := func(k Key, v *Value) {\n\t\tif v.Kind != wantKind(k) {\n\t\t\tt.Errorf(\"wrong kind\")\n\t\t}\n\t}\n\tfor k, v := range load() {\n\t\tcheck(k, v)\n\t}\n}",
+        "target": "t.Errorf(\"wrong kind\")",
+        "context": {"id": "t0123456789ab", "caller_context": "outside_packet", "context_reasons": ["callback"], "callback": true, "literals": [{"position": "other", "invocation": "local_visible", "owns_binding": false, "declaration_bytes": [40, 125], "call_sites": [[156, 167]]}], "reached_literals": [], "enclosing_run_name": {"kind": "unavailable"}, "reported_name": {"paths": [{"end": "in_packet", "end_bytes": [14, 15], "run_names": []}]}, "target_declaration_bytes": [96, 118]},
+        "intended": "positive; fact k, callback_param_local"
+      },
+      "T4": {
+        "declaration": "func TestSync(t *testing.T) {\n\tcheck := func(k Key, v *Value) {\n\t\tif v.Kind != wantKind(k) {\n\t\t\tt.Errorf(\"wrong kind\")\n\t\t}\n\t}\n\tfor k, v := range load() {\n\t\tcheck(k, v)\n\t}\n\tverifyAll(t, check)\n}",
+        "target": "t.Errorf(\"wrong kind\")",
+        "context": {"id": "t0123456789ab", "caller_context": "outside_packet", "context_reasons": ["callback"], "callback": true, "literals": [{"position": "other", "invocation": "escaping", "owns_binding": false, "declaration_bytes": [40, 125]}], "reached_literals": [], "enclosing_run_name": {"kind": "unavailable"}, "reported_name": {"paths": [{"end": "in_packet", "end_bytes": [14, 15], "run_names": []}]}, "target_declaration_bytes": [96, 118]},
+        "intended": "positive via wantKind(k), computed_in_packet; k itself stays unknown"
+      },
+      "T5": {
+        "declaration": "func assertSum(t *testing.T, xs []int, want int) {\n\tif sum(xs) != want {\n\t\tt.Fatalf(\"sum(%v) wrong\", xs)\n\t}\n}",
+        "target": "t.Fatalf(\"sum(%v) wrong\", xs)",
+        "context": {"id": "t0123456789ab", "caller_context": "outside_packet", "context_reasons": ["helper"], "callback": false, "literals": [], "reached_literals": [], "enclosing_run_name": {"kind": "unavailable"}, "reported_name": {"paths": [{"end": "caller_supplied", "end_bytes": [15, 16], "run_names": []}]}, "target_declaration_bytes": [75, 104]},
+        "intended": "unknown, outside_packet, by (b)"
+      },
+      "T6": {
+        "declaration": "func TestApply(t *testing.T) {\n\tfor _, tc := range loadCases() {\n\t\tt.Run(tc.name, func(t *testing.T) {\n\t\t\tif err := apply(tc.cfg); err != nil {\n\t\t\t\tt.Fatalf(\"apply: %v\", err)\n\t\t\t}\n\t\t})\n\t}\n}",
+        "target": "t.Fatalf(\"apply: %v\", err)",
+        "context": {"id": "t0123456789ab", "caller_context": "complete", "context_reasons": [], "callback": false, "literals": [{"position": "run_argument", "invocation": "run_argument", "owns_binding": true, "declaration_bytes": [82, 183]}], "reached_literals": [], "enclosing_run_name": {"kind": "dynamic", "expression": "tc.name"}, "reported_name": {"paths": [{"end": "in_packet", "end_bytes": [15, 16], "run_names": [{"kind": "dynamic", "expression": "tc.name", "declaration_bytes": [73, 80]}]}]}, "target_declaration_bytes": [148, 174]},
+        "intended": "unknown, opaque_output"
+      },
+      "T7": {
+        "declaration": "func TestDecode(t *testing.T) {\n\tfor _, tc := range cases() {\n\t\ttestutil.Run(t, tc.name, func(t *testing.T) {\n\t\t\tif got := decode(tc.in); got != tc.want {\n\t\t\t\tt.Errorf(\"mismatch\")\n\t\t\t}\n\t\t})\n\t}\n}",
+        "target": "t.Errorf(\"mismatch\")",
+        "context": {"id": "t0123456789ab", "caller_context": "outside_packet", "context_reasons": ["callback"], "callback": true, "literals": [{"position": "other", "invocation": "escaping", "owns_binding": true, "declaration_bytes": [89, 188]}], "reached_literals": [], "enclosing_run_name": {"kind": "unavailable"}, "reported_name": {"paths": [{"end": "caller_supplied", "end_bytes": [94, 95], "run_names": []}]}, "target_declaration_bytes": [159, 179]},
+        "intended": "unknown, outside_packet, by (b)"
+      },
+      "T8": {
+        "declaration": "func TestValid(t *testing.T) {\n\tcheck := func(i int) {\n\t\tif !valid(i) {\n\t\t\tt.Errorf(\"invalid\")\n\t\t}\n\t}\n\tfor i := range count() {\n\t\tt.Run(fmt.Sprintf(\"%d\", i), func(t *testing.T) { check(i) })\n\t}\n}",
+        "target": "t.Errorf(\"invalid\")",
+        "context": {"id": "t0123456789ab", "caller_context": "outside_packet", "context_reasons": ["callback"], "callback": true, "literals": [{"position": "other", "invocation": "local_visible", "owns_binding": false, "declaration_bytes": [41, 101], "call_sites": [[179, 187]]}], "reached_literals": [], "enclosing_run_name": {"kind": "unavailable"}, "reported_name": {"paths": [{"end": "in_packet", "end_bytes": [15, 16], "run_names": []}]}, "target_declaration_bytes": [75, 94]},
+        "intended": "positive; fact i, callback_param_local; the call-site Run is off the path"
+      },
+      "D1": {
+        "declaration": "func TestEach(t *testing.T) {\n\tcheck := func(t *testing.T, i int) {\n\t\tif !valid(i) {\n\t\t\tt.Errorf(\"invalid\")\n\t\t}\n\t}\n\tfor i, name := range names() {\n\t\tt.Run(name, func(t *testing.T) { check(t, i) })\n\t}\n}",
+        "target": "t.Errorf(\"invalid\")",
+        "context": {"id": "t0123456789ab", "caller_context": "outside_packet", "context_reasons": ["callback"], "callback": true, "literals": [{"position": "other", "invocation": "local_visible", "owns_binding": true, "declaration_bytes": [40, 114], "call_sites": [[182, 193]]}], "reached_literals": [{"position": "run_argument", "invocation": "run_argument", "declaration_bytes": [161, 195]}], "enclosing_run_name": {"kind": "unavailable"}, "reported_name": {"paths": [{"end": "in_packet", "end_bytes": [14, 15], "run_names": [{"kind": "dynamic", "expression": "name", "declaration_bytes": [155, 159]}]}]}, "target_declaration_bytes": [88, 107]},
+        "intended": "none claimed; mechanical only"
+      },
+      "D2": {
+        "declaration": "func TestEach(t *testing.T) {\n\tcheck := func(t *testing.T, i int) {\n\t\tif !valid(i) {\n\t\t\tt.Errorf(\"invalid\")\n\t\t}\n\t}\n\tfor i, name := range names() {\n\t\tt.Run(name, func(t *testing.T) {\n\t\t\ttt := t\n\t\t\tcheck(tt, i)\n\t\t})\n\t}\n}",
+        "target": "t.Errorf(\"invalid\")",
+        "context": {"id": "t0123456789ab", "caller_context": "outside_packet", "context_reasons": ["callback"], "callback": true, "literals": [{"position": "other", "invocation": "local_visible", "owns_binding": true, "declaration_bytes": [40, 114], "call_sites": [[196, 208]]}], "reached_literals": [], "enclosing_run_name": {"kind": "unavailable"}, "reported_name": {"paths": [{"end": "caller_supplied", "end_bytes": [202, 204], "run_names": []}]}, "target_declaration_bytes": [88, 107]},
+        "intended": "none claimed; mechanical only"
+      },
+      "D3": {
+        "declaration": "func TestOuter(t *testing.T) {\n\tt.Run(\"sub\", func(st *testing.T) {\n\t\tt.Errorf(\"outer failure\")\n\t})\n}",
+        "target": "t.Errorf(\"outer failure\")",
+        "context": {"id": "t0123456789ab", "caller_context": "complete", "context_reasons": [], "callback": false, "literals": [{"position": "run_argument", "invocation": "run_argument", "owns_binding": false, "declaration_bytes": [45, 97]}], "reached_literals": [], "enclosing_run_name": {"kind": "literal", "value": "sub"}, "reported_name": {"paths": [{"end": "in_packet", "end_bytes": [15, 16], "run_names": []}]}, "target_declaration_bytes": [69, 94]},
+        "intended": "none claimed; mechanical only; old name literal sub, reported path without Run names"
+      },
+      "D4": {
+        "declaration": "func TestEvery(t *testing.T) {\n\tcheck := func(t *testing.T, i int) {\n\t\tif !valid(i) {\n\t\t\tt.Errorf(\"invalid\")\n\t\t}\n\t}\n\tforEach(func(t *testing.T, i int) { check(t, i) })\n}",
+        "target": "t.Errorf(\"invalid\")",
+        "context": {"id": "t0123456789ab", "caller_context": "outside_packet", "context_reasons": ["callback"], "callback": true, "literals": [{"position": "other", "invocation": "local_visible", "owns_binding": true, "declaration_bytes": [41, 115], "call_sites": [[153, 164]]}], "reached_literals": [{"position": "other", "invocation": "escaping", "declaration_bytes": [125, 166]}], "enclosing_run_name": {"kind": "unavailable"}, "reported_name": {"paths": [{"end": "caller_supplied", "end_bytes": [130, 131], "run_names": []}]}, "target_declaration_bytes": [89, 108]},
+        "intended": "none claimed; mechanical only"
+      },
+      "E1": {
+        "declaration": "func TestOpen(t *testing.T) {\n\tif _, err := open(\"x\"); err != nil {\n\t\tt.FailNow()\n\t}\n}",
+        "target": "t.FailNow()",
+        "context": {"id": "t0123456789ab", "caller_context": "complete", "context_reasons": [], "callback": false, "literals": [], "reached_literals": [], "enclosing_run_name": {"kind": "none"}, "reported_name": {"paths": [{"end": "in_packet", "end_bytes": [14, 15], "run_names": []}]}, "target_declaration_bytes": [70, 81]},
+        "intended": "none claimed; mechanical empty-fact branch (message-less FailNow)"
+      }
+    }
+  }
+}

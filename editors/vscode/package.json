@@ -1,0 +1,70 @@
+{
+  "name": "stave-vscode",
+  "displayName": "STAVE",
+  "description": "On-save STAVE diagnostics for Go packages, served by stave lsp.",
+  "version": "0.1.0",
+  "publisher": "stave",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/aholovko/stave"
+  },
+  "private": true,
+  "engines": {
+    "vscode": "^1.82.0"
+  },
+  "categories": [
+    "Linters"
+  ],
+  "main": "./out/extension.js",
+  "activationEvents": [
+    "onLanguage:go"
+  ],
+  "capabilities": {
+    "untrustedWorkspaces": {
+      "supported": false,
+      "description": "The extension starts the configured server in the workspace, so it waits for the workspace to be trusted."
+    }
+  },
+  "contributes": {
+    "configuration": {
+      "title": "STAVE",
+      "properties": {
+        "stave.serverPath": {
+          "type": "string",
+          "default": "stave",
+          "scope": "machine-overridable",
+          "description": "Path of the stave executable. A bare name is looked up on PATH."
+        },
+        "stave.serverArgs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": [
+            "lsp",
+            "--stdio"
+          ],
+          "scope": "machine-overridable",
+          "description": "Arguments of the server: lsp, optional build and advisory flags, then --stdio."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "bundle": "node bundle.js",
+    "pretest": "npm run bundle",
+    "test": "node test/run.js",
+    "vscode:prepublish": "npm run bundle",
+    "package": "node -e \"require('node:fs').mkdirSync('../../dist', { recursive: true })\" && vsce package --out ../../dist/",
+    "test:unit": "node --test test/client.test.js test/eventually.test.js test/runner.test.js test/package.test.js"
+  },
+  "dependencies": {
+    "vscode-languageclient": "9.0.1"
+  },
+  "devDependencies": {
+    "@vscode/test-electron": "3.1.0",
+    "@vscode/vsce": "4.0.0",
+    "esbuild": "0.28.2"
+  }
+}

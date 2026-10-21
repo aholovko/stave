@@ -1,0 +1,35 @@
+package p
+
+// Ünïcode T holds things.
+type T struct {
+	A int
+}
+
+// M does m.
+func (t *t) M() {}
+
+func (T) N() {}
+
+// F is free.
+func F() {}
+
+// C is a constant.
+const C = 1
+
+type i interface {
+	// Get gets.
+	Get() int
+	fmt.Stringer
+}
+
+// Shared doc.
+type (
+	A struct{}
+	B struct{}
+)
+
+// Al is an alias.
+type Al = struct{}
+
+//go:generate x
+type D struct{}

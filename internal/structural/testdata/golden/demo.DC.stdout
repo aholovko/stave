@@ -1,0 +1,1 @@
+{"ok":true,"task":"DC","cand":"DC:demo:209-245","source":{"bytes":373,"sha256":"1ec4c9d4ab0f86db9311dc8484a6b0efcea0bb0e0256d19caff6b1a79a8f039f"},"runs":[[209,245],[246,260]],"roles":{"CAND":{"iv":[[209,245]],"why":"present"},"DECL":{"iv":[[246,260]],"why":"present"}},"facts":[[209,245,"NoStmt","Outside",null,null,null,null,0],[246,260,"NoStmt","Outside",null,null,null,null,0]]}

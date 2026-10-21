@@ -1,0 +1,22 @@
+package p
+
+// Pair returns two.
+func Pair() (int, int) { return 0, 0 }
+
+func Three() (bool, error, bool) { return false, nil, false }
+
+func Named() (a, b int) { return }
+
+func Distinct() (int, error) { return 0, nil }
+
+func (x *t) Meth() (error, error) { return nil, nil }
+
+func lower() (int, int) { return 0, 0 }
+
+type R interface {
+	// Get gets.
+	Get() ([]byte, []byte)
+	Put() (int, int)
+}
+
+type Q = interface{ Z() (int, int) }

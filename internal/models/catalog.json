@@ -1,0 +1,20 @@
+{
+  "default": "S-20261020",
+  "bundles": {
+    "S-20261020": {
+      "variant": "S",
+      "url": "https://github.com/aholovko/stave/releases/download/models-20261020/S-20261020.zip",
+      "sha256": "5c4ab64634a200ca947df3f740c54ead952c29ea66fbb5162fa526f3c6be3571"
+    },
+    "B-20261020": {
+      "variant": "B",
+      "url": "https://github.com/aholovko/stave/releases/download/models-20261020/B-20261020.zip",
+      "sha256": "5dd8c5e6f2a25d90d9094db202f38c58be68dedf23c37ea41813dde77c5f8414"
+    },
+    "F-20261020": {
+      "variant": "F",
+      "url": "https://github.com/aholovko/stave/releases/download/models-20261020/F-20261020.zip",
+      "sha256": "12a759af17861ec5bbd7996ec2108dd62f529708d6db0e9b4cdfcbfa272ea598"
+    }
+  }
+}

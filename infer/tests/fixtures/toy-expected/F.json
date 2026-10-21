@@ -1,0 +1,254 @@
+{
+ "source": "a copy of testdata/fixture-pkg in a directory without a testdata component",
+ "seed": 12,
+ "backend": {
+  "id": "toy-F",
+  "detail": "variant F, seed 12, thresholds {\"DC\": 0.0, \"P1\": 0.0, \"P2\": 0.0, \"P3\": 0.0, \"RP\": 0.0, \"TF\": 0.0}"
+ },
+ "classes": [
+  "P1",
+  "P2",
+  "P3",
+  "TF",
+  "DC",
+  "RP"
+ ],
+ "files": [
+  {
+   "file": "demo.go",
+   "status": "checked",
+   "reason": null,
+   "classes": [
+    "P1",
+    "P2",
+    "P3",
+    "DC",
+    "RP"
+   ],
+   "context": "a726a50389230df8d427d73c1d8e21962d01af36472de813bd82d2546e9314cf",
+   "withheld": {
+    "DC": {
+     "selector withheld: no_prose": 1
+    }
+   }
+  },
+  {
+   "file": "demo_test.go",
+   "status": "checked",
+   "reason": null,
+   "classes": [
+    "TF"
+   ]
+  },
+  {
+   "file": "external_test.go",
+   "status": "checked",
+   "reason": null,
+   "classes": [
+    "TF"
+   ]
+  },
+  {
+   "file": "incomplete_test.go",
+   "status": "checked",
+   "reason": null,
+   "classes": [
+    "TF"
+   ]
+  }
+ ],
+ "predictions": [
+  {
+   "file": "demo.go",
+   "class": "P1",
+   "span": [
+    139,
+    143
+   ],
+   "coverage": "checked",
+   "advice": false,
+   "reason": null,
+   "score": -0.34705716371536255
+  },
+  {
+   "file": "demo.go",
+   "class": "P2",
+   "span": [
+    82,
+    88
+   ],
+   "coverage": "checked",
+   "advice": true,
+   "reason": null,
+   "score": 0.4252815246582031
+  },
+  {
+   "file": "demo.go",
+   "class": "P3",
+   "span": [
+    62,
+    68
+   ],
+   "coverage": "checked",
+   "advice": true,
+   "reason": null,
+   "score": 0.9807710647583008
+  },
+  {
+   "file": "demo.go",
+   "class": "P3",
+   "span": [
+    96,
+    100
+   ],
+   "coverage": "checked",
+   "advice": true,
+   "reason": null,
+   "score": 0.9780690670013428
+  },
+  {
+   "file": "demo.go",
+   "class": "P3",
+   "span": [
+    101,
+    103
+   ],
+   "coverage": "checked",
+   "advice": true,
+   "reason": null,
+   "score": 1.0146002769470215
+  },
+  {
+   "file": "demo.go",
+   "class": "P3",
+   "span": [
+    168,
+    171
+   ],
+   "coverage": "checked",
+   "advice": true,
+   "reason": null,
+   "score": 0.9729650020599365
+  },
+  {
+   "file": "demo.go",
+   "class": "P3",
+   "span": [
+    172,
+    179
+   ],
+   "coverage": "checked",
+   "advice": true,
+   "reason": null,
+   "score": 0.9749965071678162
+  },
+  {
+   "file": "demo.go",
+   "class": "P3",
+   "span": [
+    251,
+    252
+   ],
+   "coverage": "checked",
+   "advice": true,
+   "reason": null,
+   "score": 0.9727964401245117
+  },
+  {
+   "file": "demo.go",
+   "class": "P3",
+   "span": [
+    261,
+    262
+   ],
+   "coverage": "checked",
+   "advice": true,
+   "reason": null,
+   "score": 1.0042351484298706
+  },
+  {
+   "file": "demo.go",
+   "class": "P3",
+   "span": [
+    293,
+    298
+   ],
+   "coverage": "checked",
+   "advice": true,
+   "reason": null,
+   "score": 0.9880976676940918
+  },
+  {
+   "file": "demo.go",
+   "class": "P3",
+   "span": [
+    339,
+    343
+   ],
+   "coverage": "checked",
+   "advice": true,
+   "reason": null,
+   "score": 0.9706336855888367
+  },
+  {
+   "file": "demo.go",
+   "class": "DC",
+   "span": [
+    209,
+    245
+   ],
+   "coverage": "checked",
+   "advice": false,
+   "reason": null,
+   "score": -0.18455901741981506
+  },
+  {
+   "file": "demo.go",
+   "class": "RP",
+   "span": [
+    346,
+    356
+   ],
+   "coverage": "checked",
+   "advice": true,
+   "reason": null,
+   "score": 0.24968311190605164
+  },
+  {
+   "file": "demo_test.go",
+   "class": "TF",
+   "span": [
+    65,
+    82
+   ],
+   "coverage": "checked",
+   "advice": false,
+   "reason": null,
+   "score": -0.6844790577888489
+  },
+  {
+   "file": "external_test.go",
+   "class": "TF",
+   "span": [
+    71,
+    89
+   ],
+   "coverage": "checked",
+   "advice": false,
+   "reason": null,
+   "score": -0.6781052947044373
+  },
+  {
+   "file": "incomplete_test.go",
+   "class": "TF",
+   "span": [
+    69,
+    80
+   ],
+   "coverage": "unsupported",
+   "advice": null,
+   "reason": "incomplete: required roles without tokens: ['ARGS']",
+   "score": null
+  }
+ ]
+}

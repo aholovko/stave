@@ -1,0 +1,20 @@
+package p
+
+import "testing"
+
+func TestA(t *testing.T) {
+	t.Error("a")
+	t.Fatalf("b %d", 1)
+	(t.Errorf)("c")
+	(t).Error("d")
+	(t.Fatal("e"))
+	t.Error()
+	defer t.Fatal("f")
+	go t.Error("g")
+	f := t.Errorf
+	_ = f
+}
+
+func BenchmarkB(b *testing.B) {
+	b.Fatal("h")
+}

@@ -1,0 +1,50 @@
+{
+ "generator": "stave-research f0b9fc6: pm.config_json and pf.config_json on six-task toy models",
+ "revision": "5604afdc964f6c53782a6813140ade5216b99006",
+ "expected": {
+  "weight_bytes": 1,
+  "weight_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+  "config_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+  "parameters": 2
+ },
+ "tasks": [
+  "E1",
+  "E2",
+  "E5",
+  "TF",
+  "DC",
+  "RP"
+ ],
+ "cases": [
+  {
+   "backbone": {
+    "vocab_size": 1024,
+    "hidden_size": 16,
+    "num_hidden_layers": 2,
+    "num_attention_heads": 2,
+    "intermediate_size": 32,
+    "max_position_embeddings": 1026,
+    "pad_token_id": 1,
+    "type_vocab_size": 10
+   },
+   "seed": 11,
+   "structural": "{\"added_parameters\": 842054, \"backbone\": {\"config_sha256\": \"1111111111111111111111111111111111111111111111111111111111111111\", \"hidden\": 16, \"layers\": 2, \"parameters\": 2, \"revision\": \"5604afdc964f6c53782a6813140ade5216b99006\", \"weight_bytes\": 1, \"weight_sha256\": \"0000000000000000000000000000000000000000000000000000000000000000\"}, \"dropout\": 0.1, \"facts\": {\"depth\": 9, \"kind\": 22, \"last\": 3, \"literal\": 4, \"ordinal\": 10, \"parent\": 24, \"segment\": 4, \"slot\": 6}, \"format\": \"stave-structural-6\", \"init_order\": [\"facts.kind.weight\", \"facts.parent.weight\", \"facts.slot.weight\", \"facts.ordinal.weight\", \"facts.last.weight\", \"facts.depth.weight\", \"facts.literal.weight\", \"facts.segment.weight\", \"roles.E1.weight\", \"inject.weight\", \"heads.E1.values\", \"heads.E1.role_bias\", \"heads.E1.empty\", \"heads.E1.query.weight\", \"heads.E1.key.weight\", \"heads.E1.hidden.weight\", \"heads.E1.hidden.bias\", \"heads.E1.out.weight\", \"heads.E1.out.bias\", \"roles.E2.weight\", \"heads.E2.values\", \"heads.E2.role_bias\", \"heads.E2.empty\", \"heads.E2.query.weight\", \"heads.E2.key.weight\", \"heads.E2.hidden.weight\", \"heads.E2.hidden.bias\", \"heads.E2.out.weight\", \"heads.E2.out.bias\", \"roles.E5.weight\", \"heads.E5.values\", \"heads.E5.role_bias\", \"heads.E5.empty\", \"heads.E5.query.weight\", \"heads.E5.key.weight\", \"heads.E5.hidden.weight\", \"heads.E5.hidden.bias\", \"heads.E5.out.weight\", \"heads.E5.out.bias\", \"roles.TF.weight\", \"heads.TF.values\", \"heads.TF.role_bias\", \"heads.TF.empty\", \"heads.TF.query.weight\", \"heads.TF.key.weight\", \"heads.TF.hidden.weight\", \"heads.TF.hidden.bias\", \"heads.TF.out.weight\", \"heads.TF.out.bias\", \"roles.DC.weight\", \"heads.DC.values\", \"heads.DC.role_bias\", \"heads.DC.empty\", \"heads.DC.query.weight\", \"heads.DC.key.weight\", \"heads.DC.hidden.weight\", \"heads.DC.hidden.bias\", \"heads.DC.out.weight\", \"heads.DC.out.bias\", \"roles.RP.weight\", \"heads.RP.values\", \"heads.RP.role_bias\", \"heads.RP.empty\", \"heads.RP.query.weight\", \"heads.RP.key.weight\", \"heads.RP.hidden.weight\", \"heads.RP.hidden.bias\", \"heads.RP.out.weight\", \"heads.RP.out.bias\"], \"init_std\": 0.02, \"roles\": {\"DC\": [\"CAND\", \"DECL\"], \"E1\": [\"CAND\", \"IF_HDR\", \"THEN_BODY\", \"THEN_LAST\", \"ELSE_BODY\", \"FUNC_SIG\"], \"E2\": [\"CAND\", \"CALL\"], \"E5\": [\"CAND\", \"DECL\"], \"RP\": [\"CAND\", \"DECL\", \"DOC\"], \"TF\": [\"CAND\", \"ARGS\", \"PREV\", \"ENCL_HDR\", \"RUN_PREFIX\", \"BIND_SIG\", \"FUNC_SIG\", \"BODY\"]}, \"seed\": 11, \"tasks\": [\"E1\", \"E2\", \"E5\", \"TF\", \"DC\", \"RP\"], \"widths\": {\"fact\": 64, \"head\": 128, \"mlp\": 256}}",
+   "flat": "{\"added_parameters\": 835718, \"backbone\": {\"config_sha256\": \"1111111111111111111111111111111111111111111111111111111111111111\", \"hidden\": 16, \"layers\": 2, \"parameters\": 2, \"revision\": \"5604afdc964f6c53782a6813140ade5216b99006\", \"weight_bytes\": 1, \"weight_sha256\": \"0000000000000000000000000000000000000000000000000000000000000000\"}, \"cue\": \"cand-last-byte-row\", \"dropout\": 0.1, \"format\": \"stave-flat-1\", \"init\": {\"from\": \"stave-structural-6\", \"seed\": 11, \"sha256\": \"413fb5abf86b4b4143dc6759e7397fbef71595853d8453516f2252ac0dce1583\", \"tasks\": [\"E1\", \"E2\", \"E5\", \"TF\", \"DC\", \"RP\"]}, \"init_std\": 0.02, \"kind\": \"flat-cand\", \"pool\": \"all-source-tokens\", \"slots\": {\"DC\": 2, \"E1\": 6, \"E2\": 2, \"E5\": 2, \"RP\": 3, \"TF\": 8}, \"tasks\": [\"E1\", \"E2\", \"E5\", \"TF\", \"DC\", \"RP\"], \"widths\": {\"fact\": 64, \"head\": 128, \"mlp\": 256}}"
+  },
+  {
+   "backbone": {
+    "vocab_size": 8,
+    "hidden_size": 768,
+    "num_hidden_layers": 1,
+    "num_attention_heads": 12,
+    "intermediate_size": 32,
+    "max_position_embeddings": 1026,
+    "pad_token_id": 1,
+    "type_vocab_size": 10
+   },
+   "seed": 20261004,
+   "structural": "{\"added_parameters\": 4259142, \"backbone\": {\"config_sha256\": \"1111111111111111111111111111111111111111111111111111111111111111\", \"hidden\": 768, \"layers\": 1, \"parameters\": 2, \"revision\": \"5604afdc964f6c53782a6813140ade5216b99006\", \"weight_bytes\": 1, \"weight_sha256\": \"0000000000000000000000000000000000000000000000000000000000000000\"}, \"dropout\": 0.1, \"facts\": {\"depth\": 9, \"kind\": 22, \"last\": 3, \"literal\": 4, \"ordinal\": 10, \"parent\": 24, \"segment\": 4, \"slot\": 6}, \"format\": \"stave-structural-6\", \"init_order\": [\"facts.kind.weight\", \"facts.parent.weight\", \"facts.slot.weight\", \"facts.ordinal.weight\", \"facts.last.weight\", \"facts.depth.weight\", \"facts.literal.weight\", \"facts.segment.weight\", \"roles.E1.weight\", \"inject.weight\", \"heads.E1.values\", \"heads.E1.role_bias\", \"heads.E1.empty\", \"heads.E1.query.weight\", \"heads.E1.key.weight\", \"heads.E1.hidden.weight\", \"heads.E1.hidden.bias\", \"heads.E1.out.weight\", \"heads.E1.out.bias\", \"roles.E2.weight\", \"heads.E2.values\", \"heads.E2.role_bias\", \"heads.E2.empty\", \"heads.E2.query.weight\", \"heads.E2.key.weight\", \"heads.E2.hidden.weight\", \"heads.E2.hidden.bias\", \"heads.E2.out.weight\", \"heads.E2.out.bias\", \"roles.E5.weight\", \"heads.E5.values\", \"heads.E5.role_bias\", \"heads.E5.empty\", \"heads.E5.query.weight\", \"heads.E5.key.weight\", \"heads.E5.hidden.weight\", \"heads.E5.hidden.bias\", \"heads.E5.out.weight\", \"heads.E5.out.bias\", \"roles.TF.weight\", \"heads.TF.values\", \"heads.TF.role_bias\", \"heads.TF.empty\", \"heads.TF.query.weight\", \"heads.TF.key.weight\", \"heads.TF.hidden.weight\", \"heads.TF.hidden.bias\", \"heads.TF.out.weight\", \"heads.TF.out.bias\", \"roles.DC.weight\", \"heads.DC.values\", \"heads.DC.role_bias\", \"heads.DC.empty\", \"heads.DC.query.weight\", \"heads.DC.key.weight\", \"heads.DC.hidden.weight\", \"heads.DC.hidden.bias\", \"heads.DC.out.weight\", \"heads.DC.out.bias\", \"roles.RP.weight\", \"heads.RP.values\", \"heads.RP.role_bias\", \"heads.RP.empty\", \"heads.RP.query.weight\", \"heads.RP.key.weight\", \"heads.RP.hidden.weight\", \"heads.RP.hidden.bias\", \"heads.RP.out.weight\", \"heads.RP.out.bias\"], \"init_std\": 0.02, \"roles\": {\"DC\": [\"CAND\", \"DECL\"], \"E1\": [\"CAND\", \"IF_HDR\", \"THEN_BODY\", \"THEN_LAST\", \"ELSE_BODY\", \"FUNC_SIG\"], \"E2\": [\"CAND\", \"CALL\"], \"E5\": [\"CAND\", \"DECL\"], \"RP\": [\"CAND\", \"DECL\", \"DOC\"], \"TF\": [\"CAND\", \"ARGS\", \"PREV\", \"ENCL_HDR\", \"RUN_PREFIX\", \"BIND_SIG\", \"FUNC_SIG\", \"BODY\"]}, \"seed\": 20261004, \"tasks\": [\"E1\", \"E2\", \"E5\", \"TF\", \"DC\", \"RP\"], \"widths\": {\"fact\": 64, \"head\": 128, \"mlp\": 256}}",
+   "flat": "{\"added_parameters\": 4252806, \"backbone\": {\"config_sha256\": \"1111111111111111111111111111111111111111111111111111111111111111\", \"hidden\": 768, \"layers\": 1, \"parameters\": 2, \"revision\": \"5604afdc964f6c53782a6813140ade5216b99006\", \"weight_bytes\": 1, \"weight_sha256\": \"0000000000000000000000000000000000000000000000000000000000000000\"}, \"cue\": \"cand-last-byte-row\", \"dropout\": 0.1, \"format\": \"stave-flat-1\", \"init\": {\"from\": \"stave-structural-6\", \"seed\": 20261004, \"sha256\": \"761154230043d1e281ce097d80931540a7a5931cd4f78831cdf9fa9d036e9ee6\", \"tasks\": [\"E1\", \"E2\", \"E5\", \"TF\", \"DC\", \"RP\"]}, \"init_std\": 0.02, \"kind\": \"flat-cand\", \"pool\": \"all-source-tokens\", \"slots\": {\"DC\": 2, \"E1\": 6, \"E2\": 2, \"E5\": 2, \"RP\": 3, \"TF\": 8}, \"tasks\": [\"E1\", \"E2\", \"E5\", \"TF\", \"DC\", \"RP\"], \"widths\": {\"fact\": 64, \"head\": 128, \"mlp\": 256}}"
+  }
+ ]
+}

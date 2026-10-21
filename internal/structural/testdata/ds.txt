@@ -1,0 +1,60 @@
+// Package fx is a fixture.
+package fx
+
+// T is a type.
+type T[K comparable] struct{}
+
+type t struct{}
+
+// Plain has a doc.
+func Plain() {}
+
+// Results has unparenthesized results.
+func Results(a int) error {
+	if a > 0 {
+		return nil
+	}
+	for i := 0; i < a; i++ {
+		defer func() {
+			if i > 0 {
+				return
+			}
+		}()
+	}
+	switch {
+	case a > 1:
+		return fmt.Errorf("x")
+	}
+	return func() error { return nil }()
+}
+
+// Method is on an exported pointer receiver.
+func (r *T[K]) Method(k K) (n int, err error) {
+	select {
+	case <-make(chan int):
+		return 1, nil
+	}
+	return
+}
+
+// Hidden is on an unexported receiver.
+func (r t) Hidden() {}
+
+// Bodiless has no body.
+func Bodiless() int
+
+// unexported is not exported.
+func unexported() {}
+
+/* Block doc */
+// continues.
+func (T[K]) Value() int {
+	if v := func() int { return 1 }(); v > 0 {
+		return v
+	} else if v < 0 {
+		return -v
+	}
+	return 0
+}
+
+func NoDoc() {}

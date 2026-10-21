@@ -1,0 +1,108 @@
+package fx
+
+import "fmt"
+
+// Chain is exported.
+func Chain(a, b int) (int, error) {
+	if a > 0 {
+		return 1, nil
+	} else if b > 0 {
+		fmt.Println("b")
+	} else if a == b {
+	} else {
+		return 3, nil
+	}
+	if x := a; x < 0 {
+	} else {
+	}
+	if a > 1 {
+		a++
+		return a, nil
+	} /* c */ else {
+		b--
+	}
+L:
+	for i := 0; i < 10; i++ {
+		if i == 2 {
+			continue L
+		} else {
+			break
+		}
+	}
+	switch v := a; v {
+	case 1:
+		return 1, nil
+	case 2:
+	default:
+		if b > 0 {
+			return 2, nil
+		} else {
+			goto M
+		}
+	}
+M:
+	return 0, nil
+}
+
+// Lits is exported so its statement forms enter the DS projection.
+func Lits(ch chan int, xs []string) func() int {
+	var s string = "héllo, 世界"
+	go func() { ch <- 1 }()
+	defer func() {}()
+	;
+	{
+		ch <- 0
+	}
+B:
+	{
+		s += "!"
+	}
+	for _, x := range xs {
+		f := func() int {
+			g := func() int {
+				if len(x) > 0 {
+					return 1
+				} else {
+					return 2
+				}
+			}
+			return g()
+		}
+		_ = f
+	}
+	if f := func() bool { return s != "" }; f() {
+		return func() int { return 1 }
+	} else {
+		ch <- 2
+	}
+	select {
+	case v := <-ch:
+		if v > 0 {
+			return nil
+		} else {
+		}
+	case ch <- 3:
+	default:
+	}
+	var t interface{} = s
+	switch u := t.(type) {
+	case string:
+		_ = u
+	}
+	switch n := len(s); n {
+	case 1:n++
+	case 2:
+	N:
+	}
+	return nil
+}
+
+// Größe has Unicode identifiers.
+func Größe(ä int) int {
+	if ä > 0 {
+	E:
+	} else {
+		ä--
+	}
+	return ä
+}
