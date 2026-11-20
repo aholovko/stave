@@ -164,7 +164,7 @@ func TestSetupWithTheDefaultModelSaysItIsNotPublishedYet(t *testing.T) {
 
 	code, stdout, stderr := stave(t, "setup")
 	if code != 1 || !strings.Contains(stdout, "runtime ready") ||
-		!strings.Contains(stderr, "S-20261020 is not published yet") ||
+		!strings.Contains(stderr, "S-r1 is not published yet") ||
 		!strings.Contains(stderr, "a local zip or directory can be added instead") {
 		t.Errorf("exit %d\nstdout:\n%s\nstderr:\n%s", code, stdout, stderr)
 	}

@@ -364,7 +364,7 @@ func TestAddOfACatalogBundleNotUploadedYetSaysItIsNotPublished(t *testing.T) {
 
 func TestAddOfAnUnknownSourceNamesTheCatalog(t *testing.T) {
 	_, err := Add(context.Background(), t.TempDir(), "Q-1", pass, &bytes.Buffer{})
-	if err == nil || !strings.Contains(err.Error(), "S-20261020") {
+	if err == nil || !strings.Contains(err.Error(), "S-r1") {
 		t.Errorf("error %v; want the catalog ids named", err)
 	}
 }
@@ -460,11 +460,11 @@ func TestReadManifestRefusesWhatThisRuntimeCannotServe(t *testing.T) {
 
 func TestTheEmbeddedCatalogNamesTheThreeBundles(t *testing.T) {
 	c := EmbeddedCatalog()
-	if c.Default != "S-20261020" {
+	if c.Default != "S-r1" {
 		t.Errorf("default %q", c.Default)
 	}
 	hex64 := regexp.MustCompile(`^[0-9a-f]{64}$`)
-	for id, variant := range map[string]string{"S-20261020": "S", "B-20261020": "B", "F-20261020": "F"} {
+	for id, variant := range map[string]string{"S-r1": "S", "B-r1": "B", "F-r1": "F"} {
 		e, ok := c.Bundles[id]
 		if !ok || e.Variant != variant {
 			t.Errorf("%s: %+v, %v", id, e, ok)

@@ -38,7 +38,7 @@ Allow 8 GB of RAM and about 2.5 GB of disk space for the runtime and one model. 
 ### 1. Install the command-line tool
 
 Download the archive for your system from [Releases](https://github.com/aholovko/stave/releases), extract it, and put
-`stave` (or `stave.exe`) on your `PATH`. The commands below use `v0.1.0`; change the version to match your download.
+`stave` (or `stave.exe`) on your `PATH`. The commands below use `v0.1.1`; change the version to match your download.
 
 <details>
 <summary>macOS and Linux</summary>
@@ -46,7 +46,7 @@ Download the archive for your system from [Releases](https://github.com/aholovko
 Set `TARGET` to `darwin_arm64` for macOS, `linux_amd64` for Linux x86_64, or `linux_arm64` for Linux arm64.
 
 ```sh
-VERSION=v0.1.0
+VERSION=v0.1.1
 TARGET=darwin_arm64
 curl -fLO "https://github.com/aholovko/stave/releases/download/$VERSION/stave_${VERSION}_${TARGET}.tar.gz"
 tar -xzf "stave_${VERSION}_${TARGET}.tar.gz"
@@ -62,7 +62,7 @@ Make sure `~/.local/bin` is on your `PATH`.
 <summary>Windows (PowerShell)</summary>
 
 ```powershell
-$Version = "v0.1.0"
+$Version = "v0.1.1"
 Invoke-WebRequest -OutFile stave.zip `
   "https://github.com/aholovko/stave/releases/download/$Version/stave_${Version}_windows_amd64.zip"
 Expand-Archive stave.zip -DestinationPath .
@@ -83,7 +83,7 @@ stave setup
 stave doctor
 ```
 
-Setup installs the default model, `S-20261020`, and downloads about 1.1 GB on the first run. `stave doctor` checks the
+Setup installs the default model, `S-r1`, and downloads about 1.1 GB on the first run. `stave doctor` checks the
 installation and explains any failures. Analysis works offline after setup.
 
 ### 3. Add VS Code integration (optional)
@@ -142,15 +142,15 @@ EOF
 stave check demo
 ```
 
-With `S-20261020`, the findings include the following (scores may vary slightly):
+With `S-r1`, the findings include the following (scores may vary slightly):
 
 ```text
 demo/demo.go:5:25: P2 exact: error-literal form
 demo/demo.go:10:4: P1 exact: else after direct return
 demo/demo.go:15:10: P3 exact: underscore at a declaring position
-demo/demo.go:17:1: DC advisory: documentation comments [S-20261020 score=9.21]
-demo/demo.go:20:15: RP advisory: result-parameter clarity [S-20261020 score=2.23]
-demo/demo_test.go:7:3: TF advisory: missing diagnostic details in test failures [S-20261020 score=5.45]
+demo/demo.go:17:1: DC advisory: documentation comments [S-r1 score=10.16]
+demo/demo.go:20:15: RP advisory: result-parameter clarity [S-r1 score=3.07]
+demo/demo_test.go:7:3: TF advisory: missing diagnostic details in test failures [S-r1 score=5.17]
 ```
 
 The full output also includes model suggestions for P1–P3, candidate counts and coverage. TF applies only to the test
@@ -175,15 +175,15 @@ The default model is ready after `stave setup`. To try another model:
 
 ```sh
 stave model list
-stave model add B-20261020
-stave model use B-20261020
+stave model add B-r1
+stave model use B-r1
 ```
 
 | Model | Description |
 | --- | --- |
-| `S-20261020` (default) | Uses code structure and pools tokens by structural role before scoring. |
-| `B-20261020` | Uses a flat view of the source, without structural roles. |
-| `F-20261020` | Uses code structure, but pools source tokens together when scoring. |
+| `S-r1` (default) | Uses code structure and pools tokens by structural role before scoring. |
+| `B-r1` | Uses a flat view of the source, without structural roles. |
+| `F-r1` | Uses code structure, but pools source tokens together when scoring. |
 
 The next CLI run or VS Code save uses the selected model. Use `stave check -model ID demo` to choose a model for one
 run, or `stave model remove ID` to remove an inactive model. `stave model add` also accepts a bundle URL, zip file or
@@ -210,7 +210,8 @@ Unblock-File "$env:LOCALAPPDATA\Programs\stave\stave.exe"
 ## Update and uninstall
 
 To update, replace the binary and extension, run `stave setup`, then run **Developer: Reload Window** in VS Code. Setup
-replaces the old runtime and keeps installed models.
+replaces the old runtime and keeps installed models. When a release changes the default model, setup installs it but
+keeps your active model; run `stave model use S-r1` to switch to the current default.
 
 To remove STAVE's runtime, models and configuration:
 

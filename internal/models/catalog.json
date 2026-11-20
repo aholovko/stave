@@ -1,20 +1,20 @@
 {
-  "default": "S-20261020",
+  "default": "S-r1",
   "bundles": {
-    "S-20261020": {
+    "S-r1": {
       "variant": "S",
-      "url": "https://github.com/aholovko/stave/releases/download/models-20261020/S-20261020.zip",
-      "sha256": "5c4ab64634a200ca947df3f740c54ead952c29ea66fbb5162fa526f3c6be3571"
+      "url": "https://github.com/aholovko/stave/releases/download/models-r1/S-r1.zip",
+      "sha256": "9eba38f8132cb702b56bee014907341a65204856b3cdc44d8b97cad3a6308fed"
     },
-    "B-20261020": {
+    "B-r1": {
       "variant": "B",
-      "url": "https://github.com/aholovko/stave/releases/download/models-20261020/B-20261020.zip",
-      "sha256": "5dd8c5e6f2a25d90d9094db202f38c58be68dedf23c37ea41813dde77c5f8414"
+      "url": "https://github.com/aholovko/stave/releases/download/models-r1/B-r1.zip",
+      "sha256": "307d0f5e5f8f9e46d037ff9b8a4eb6b7675a35ab97b68b127062dff18c1af698"
     },
-    "F-20261020": {
+    "F-r1": {
       "variant": "F",
-      "url": "https://github.com/aholovko/stave/releases/download/models-20261020/F-20261020.zip",
-      "sha256": "12a759af17861ec5bbd7996ec2108dd62f529708d6db0e9b4cdfcbfa272ea598"
+      "url": "https://github.com/aholovko/stave/releases/download/models-r1/F-r1.zip",
+      "sha256": "177b2c86c9fa6f8903589a6ca91e62634973232fc3541d2e9019978631cfa9c3"
     }
   }
 }

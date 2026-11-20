@@ -25,7 +25,7 @@ directory.
 The packaging tool produces a zip with one top-level directory:
 
 ```text
-S-20261020/
+S-r1/
   manifest.json
   model.pt
   backbone-config.json
@@ -72,16 +72,16 @@ Hashes must be 64 lowercase hexadecimal characters.
 ```json
 {
   "format": "stave-model-bundle-1",
-  "id": "S-20261020",
+  "id": "S-r1",
   "variant": "S",
-  "version": "2026.10.20",
+  "version": "r1",
   "description": "STAVE variant S",
   "tasks": ["P1", "P2", "P3", "TF", "DC", "RP"],
-  "seed": 20261004,
+  "seed": 1,
   "thresholds": {"P1": 0.0, "P2": 0.0, "P3": 0.0, "TF": 0.0, "DC": 0.0, "RP": 0.0},
   "batch_size": 2,
   "input_budgets": {"P1": 1023, "P2": 1023, "P3": 1023, "TF": 512, "DC": 512, "RP": 512},
-  "model": {"file": "model.pt", "format": "stave-structural-6", "sha256": "471a27c6…", "bytes": 520843587},
+  "model": {"file": "model.pt", "format": "stave-structural-6", "sha256": "ac665866…", "bytes": 520843587},
   "backbone": {
     "name": "microsoft/unixcoder-base",
     "revision": "5604afdc…",
@@ -103,9 +103,9 @@ Hashes must be 64 lowercase hexadecimal characters.
     }
   },
   "provenance": {
-    "run": "six-class-final-bfs-training-evaluation-2026-10-10/execution-001",
-    "plan_sha256": "cf0dbe48…",
-    "source_model_sha256": "a547ff1c…",
+    "run": "seed-1/execution-001",
+    "plan_sha256": "27dab1f3…",
+    "source_model_sha256": "a2ad6bb1…",
     "source_tasks": ["E1", "E2", "E5", "TF", "DC", "RP"],
     "conversion": "stave-task-ids-e-to-p-1"
   },
@@ -140,7 +140,7 @@ Run [make_bundle.py](../tools/bundle/make_bundle.py) from the repository root:
 
 ```sh
 uv run --project infer --locked python tools/bundle/make_bundle.py \
-  --run RUN_DIR --arm S --id S-20261020 --version 2026.10.20 \
+  --run RUN_DIR --arm S --id S-r1 --version r1 \
   --backbone-config PATH/config.json \
   --tokenizer-dir TOKENIZER_DIR --tokenizer-receipt PATH/tokenizer-artifacts.json \
   --out OUT_DIR
@@ -165,8 +165,8 @@ needed. The manifest records the source checkpoint hash and conversion in `prove
 B's saved initialization fingerprint still describes the original training initialization, including its E-based names.
 Research files and receipts stay unchanged. Use a new bundle ID when converting an existing model.
 
-The date in `S-20261020` and version `2026.10.20` records the bundle revision. Use the same date for B, F and S packaged
-together; retain the original training dates in `provenance`.
+The `r1` in `S-r1` and in the version names the bundle revision. Use the same revision for B, F and S packaged
+together.
 
 The tool adds `LICENSE` and `NOTICE` and writes the manifest. It sets token budgets to 1,023 for
 P1/P2/P3 and 512 for TF/DC/RP. It writes `OUT_DIR/<id>/` and `OUT_DIR/<id>.zip`, refuses existing outputs, and prints
@@ -175,7 +175,7 @@ the zip's size and SHA-256. With the locked inference environment, identical inp
 Packaging verifies file hashes. Install the zip for the runtime’s full [compatibility check](#compatibility):
 
 ```sh
-stave model add OUT_DIR/S-20261020.zip
+stave model add OUT_DIR/S-r1.zip
 ```
 
 For converted research models, retain JSON reports from these checks before publishing:
@@ -205,7 +205,7 @@ To publish a bundle:
 
 1. Build it, pass the compatibility check and retain any conversion parity reports.
 2. Prepare its id, variant, planned URL and zip SHA-256 in the catalog.
-3. Upload the zip to a separate model release, such as `models-20261020`, in
+3. Upload the zip to a separate model release, such as `models-r1`, in
    [GitHub Releases](https://github.com/aholovko/stave/releases). The release tag must match the tag in the catalog URL.
    Do not mark it as the latest release; with `gh`, use `--latest=false`.
 4. Publish the model release, then download each catalog URL and verify its zip hash before publishing the binary
